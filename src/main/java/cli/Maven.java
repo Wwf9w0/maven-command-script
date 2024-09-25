@@ -1,17 +1,17 @@
-package command;
+package cli;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
 
-public class MavenCommand {
+public class Maven {
 
     private String mavenCommand;
     private String projectPath;
 
     private boolean isSuccess;
 
-    public MavenCommand(String command, String projectPath) {
+    public Maven(String command, String projectPath) {
         this.projectPath = projectPath;
         this.mavenCommand = command;
         try {

@@ -1,4 +1,4 @@
-package command;
+package cli.process;
 
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
@@ -9,12 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ImportAnalyze {
+public class ImportAnalyzeProcess {
 
     private String path;
     private boolean isSuccess;
 
-    public ImportAnalyze(String path) {
+    public ImportAnalyzeProcess(String path) {
         this.path = path;
         try {
             analyze(path);

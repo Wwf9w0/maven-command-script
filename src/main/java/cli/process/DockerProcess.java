@@ -1,4 +1,4 @@
-package command.process;
+package cli.process;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,13 +17,11 @@ public class DockerProcess {
     private final String LATEST = ":latest";
 
     private final String DOCKER_OPEN_COMMAND = "open /Applications/Docker.app";
-    private final String DOCKER_INFO = "docker info";
 
     private final String DOCKER_PULL = "docker pull";
 
 
-    public DockerProcess(String name, boolean isLatest) {
-        this.name = name;
+    public DockerProcess(boolean isLatest) {
         this.isLatest = isLatest;
         this.type = DOCKER_PULL;
         this.version = LATEST;
