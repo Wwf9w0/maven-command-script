@@ -1,4 +1,6 @@
-package cli.process;
+package cli.process.impl.run;
+
+import cli.process.IRun;
 
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
@@ -9,25 +11,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ImportAnalyzeProcess {
-
-    private String path;
-    private boolean isSuccess;
-
-    public ImportAnalyzeProcess(String path) {
-        this.path = path;
+public class ImportAnalyzeRunImpl implements IRun {
+    @Override
+    public void run(String command, String path) {
+        path = path + "/src/main/java/";
+        List<String> unUsedImports = null;
         try {
-            analyze(path);
-            this.isSuccess = true;
+            unUsedImports = findUnusedImports(path);
         } catch (IOException e) {
-            this.isSuccess = false;
             throw new RuntimeException(e);
         }
-    }
-
-    private static void analyze(String path) throws IOException {
-        path = path + "/src/main/java/";
-        List<String> unUsedImports = findUnusedImports(path);
         String result = unUsedImports.stream()
                 .map(importLine -> "+ " + importLine)
                 .collect(Collectors.joining("\n"));
@@ -79,9 +72,5 @@ public class ImportAnalyzeProcess {
             }
         }
         return false;
-    }
-
-    public boolean isSuccess() {
-        return isSuccess;
     }
 }

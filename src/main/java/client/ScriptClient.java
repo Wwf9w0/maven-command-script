@@ -1,47 +1,49 @@
 package client;
 
-import cli.Maven;
-import cli.process.impl.DockerProcessImpl;
-import cli.process.impl.ImportAnalyzeProcessImpl;
-import cli.process.impl.MavenProcessImpl;
+
+import model.CommandRequest;
+import model.CommandType;
+import rule.handler.CommandHandler;
 
 import java.util.Scanner;
 
 public class ScriptClient {
     private static Scanner SCANNER = new Scanner(System.in);
 
-    private static Maven maven;
 
-    private static MavenProcessImpl mavenProcess;
+    private static CommandHandler commandHandler = new CommandHandler();
 
-    private static ImportAnalyzeProcessImpl importAnalyzeProcess;
-
-    private static DockerProcessImpl dockerProcess;
-
-    public ScriptClient(Maven maven, DockerProcessImpl dockerProcess, MavenProcessImpl mavenProcess, ImportAnalyzeProcessImpl importAnalyzeProcess) {
-        this.maven = maven;
-        this.dockerProcess = dockerProcess;
-        this.mavenProcess = mavenProcess;
-        this.importAnalyzeProcess = importAnalyzeProcess;
+    public ScriptClient() {
     }
+
 
     public static void run(String[] args) {
         System.out.print("Please enter the file path of the project: ");
         String projectPath = SCANNER.nextLine();
-
-        System.out.println("Which command want to use ?");
-        System.out.println("1 - maven");
-        System.out.println("2 - import analyze");
-        System.out.println("3 - docker");
-        System.out.println("Make your choice (1-3)");
+        build();
         int choice = SCANNER.nextInt();
-        SCANNER.nextLine();
-        if (choice == 1) {
-            mavenProcess.buildProcess(SCANNER, projectPath);
-        } else if (choice == 2) {
-            importAnalyzeProcess.buildProcess(SCANNER, projectPath);
-        } else if (choice == 3) {
-            dockerProcess.buildProcess(SCANNER, projectPath);
-        }
+        CommandRequest request = new CommandRequest();
+        request.setNumber(choice);
+        buildCommandRequest(request, projectPath);
+        commandHandler.handle(request.getCommandType()).runCommand(request);
+    }
+
+    private static void build(){
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Which command want to use ?");
+        stringBuilder.append("\n");
+        stringBuilder.append("1 - maven");
+        stringBuilder.append("\n");
+        stringBuilder.append("2 - import analyze");
+        stringBuilder.append("\n");
+        stringBuilder.append("3- docker");
+        stringBuilder.append("\n");
+        stringBuilder.append("Make your choice (1-3)");
+        System.out.println(stringBuilder);
+    }
+
+    private static void buildCommandRequest(CommandRequest request,String path){
+        request.setPath(path);
+        request.setCommandType(CommandType.fromValue(request.getNumber()));
     }
 }

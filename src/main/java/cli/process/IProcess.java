@@ -1,11 +1,11 @@
 package cli.process;
 
+import java.util.List;
 import java.util.Scanner;
 
 public interface IProcess {
 
-    public void buildProcess(Scanner scanner, String path);
+    public List<String> buildProcess(Scanner scanner, String path);
 
-    public void startProcess();
 
 }
