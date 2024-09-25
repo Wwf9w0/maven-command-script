@@ -1,12 +1,10 @@
 package client;
 
 import cli.Maven;
-import cli.process.ImportAnalyzeProcess;
-import model.MavenCommandType;
-import service.DockerBuild;
-import service.MavenBuild;
+import cli.process.impl.DockerProcessImpl;
+import cli.process.impl.ImportAnalyzeProcessImpl;
+import cli.process.impl.MavenProcessImpl;
 
-import java.util.List;
 import java.util.Scanner;
 
 public class ScriptClient {
@@ -14,14 +12,17 @@ public class ScriptClient {
 
     private static Maven maven;
 
-    private static ImportAnalyzeProcess analyzeProcess;
-    private static DockerBuild dockerBuild = new DockerBuild();
-    private static MavenBuild mavenBuild = new MavenBuild();
+    private static MavenProcessImpl mavenProcess;
 
-    public ScriptClient(Maven mavenCommand, DockerBuild dockerBuild, MavenBuild mavenBuild) {
-        this.maven = mavenCommand;
-        this.dockerBuild = dockerBuild;
-        this.mavenBuild = mavenBuild;
+    private static ImportAnalyzeProcessImpl importAnalyzeProcess;
+
+    private static DockerProcessImpl dockerProcess;
+
+    public ScriptClient(Maven maven, DockerProcessImpl dockerProcess, MavenProcessImpl mavenProcess, ImportAnalyzeProcessImpl importAnalyzeProcess) {
+        this.maven = maven;
+        this.dockerProcess = dockerProcess;
+        this.mavenProcess = mavenProcess;
+        this.importAnalyzeProcess = importAnalyzeProcess;
     }
 
     public static void run(String[] args) {
@@ -35,30 +36,12 @@ public class ScriptClient {
         System.out.println("Make your choice (1-3)");
         int choice = SCANNER.nextInt();
         SCANNER.nextLine();
-
         if (choice == 1) {
-            MavenCommandType commandType = mavenBuild.getMvnCommand(SCANNER);
-            List<String> commandList = mavenBuild.makeCommandList(commandType);
-            for (String s : commandList) {
-                maven = new Maven(s, projectPath);
-                if (!maven.isSuccess()) {
-                    throw new RuntimeException("Error executing one of the mvn commands.! -> " + s);
-                }
-            }
+            mavenProcess.buildProcess(SCANNER, projectPath);
         } else if (choice == 2) {
-            analyzeProcess = new ImportAnalyzeProcess(projectPath);
-            if (!analyzeProcess.isSuccess()) {
-                throw new RuntimeException("an unknown error occurred while import analyze");
-            }
+            importAnalyzeProcess.buildProcess(SCANNER, projectPath);
         } else if (choice == 3) {
-            System.out.println("Which command want to you? ");
-            System.out.println("1- pull image");
-            System.out.println("2- docker info");
-            System.out.println("3- docker images");
-
-            int choiceDockerProcess = SCANNER.nextInt();
-            String command = dockerBuild.buildCommand(choiceDockerProcess, SCANNER);
-            dockerBuild.runDocker(command);
+            dockerProcess.buildProcess(SCANNER, projectPath);
         }
     }
 }
