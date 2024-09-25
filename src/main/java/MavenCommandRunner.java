@@ -19,12 +19,12 @@ public class MavenCommandRunner {
 
         System.out.print("Please enter the file path of the project: ");
         String projectPath = scanner.nextLine();
-
         System.out.println("Which maven command you want to?");
         System.out.println("1. clean-install");
         System.out.println("2. resolve");
         System.out.println("3. analyze");
-        System.out.print("Make your choice (1-3): ");
+        System.out.println("4. import analyze");
+        System.out.print("Make your choice (1-4): ");
         int choice = scanner.nextInt();
         scanner.nextLine();
 
@@ -44,16 +44,22 @@ public class MavenCommandRunner {
             case 3:
                 runMavenCommand("dependency:analyze", projectPath);
                 break;
+            case 4 :
+                importAnalyze(projectPath);
             default:
                 System.out.println("Unknown! Process ending.");
                 break;
         }
-        List<String> unUsedImports = findUnusedImports(projectPath);
+        scanner.close();
+    }
+
+    private static void importAnalyze(String path) throws IOException {
+        path = path + "/src/main/java/";
+        List<String> unUsedImports = findUnusedImports(path);
         String result = unUsedImports.stream()
                 .map(importLine -> "+ " + importLine)
                 .collect(Collectors.joining("\n"));
         System.out.println("Unused imports : \n" + result);
-        scanner.close();
     }
 
     private static void runMavenCommand(String mavenCommand, String projectPath) {
