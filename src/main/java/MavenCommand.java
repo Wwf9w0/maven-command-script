@@ -9,13 +9,13 @@ public class MavenCommand {
 
     private boolean isSuccess;
 
-    public MavenCommand(String command, String projectPath){
+    public MavenCommand(String command, String projectPath) {
         this.projectPath = projectPath;
         this.mavenCommand = command;
         try {
             runCommand(command, projectPath);
             this.isSuccess = true;
-        }catch (Exception e){
+        } catch (Exception e) {
             this.isSuccess = false;
             throw new RuntimeException("Mvn run command exception + " + e.getMessage());
         }
@@ -48,7 +48,7 @@ public class MavenCommand {
         }
     }
 
-    public boolean isSuccess(){
+    public boolean isSuccess() {
         return isSuccess;
     }
 

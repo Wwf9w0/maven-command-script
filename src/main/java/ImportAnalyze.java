@@ -12,7 +12,7 @@ public class ImportAnalyze {
     private String path;
     private boolean isSuccess;
 
-    public ImportAnalyze(String path){
+    public ImportAnalyze(String path) {
         this.path = path;
         try {
             analyze(path);
@@ -31,6 +31,7 @@ public class ImportAnalyze {
                 .collect(Collectors.joining("\n"));
         System.out.println("Unused imports : \n" + result);
     }
+
     private static List<String> findUnusedImports(String directoryPath) throws IOException {
         List<String> unusedImports = new ArrayList<>();
         DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(directoryPath));
@@ -78,7 +79,7 @@ public class ImportAnalyze {
         return false;
     }
 
-    public boolean isSuccess(){
+    public boolean isSuccess() {
         return isSuccess;
     }
 }

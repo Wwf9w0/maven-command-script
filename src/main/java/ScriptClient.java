@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class ScriptClient {
     private static Scanner SCANNER = new Scanner(System.in);
-    private static String MAVEN = "mvn";
+
     private static MavenCommand mavenCommand;
 
     private static ImportAnalyze importAnalyze;
