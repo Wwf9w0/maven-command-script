@@ -1,1 +1,6 @@
+ScriptClient$MavenCommandType.class
+ScriptClient.class
+MavenCommand.class
 MavenCommandRunner.class
+ImportAnalyze.class
+Script.class
