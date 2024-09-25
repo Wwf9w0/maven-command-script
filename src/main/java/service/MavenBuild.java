@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class MavenService {
+public class MavenBuild {
 
     public  List<String> makeCommandList(MavenCommandType commandType) {
         List<String> commandList = new ArrayList<>();

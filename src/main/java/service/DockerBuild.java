@@ -5,7 +5,7 @@ import model.Images;
 
 import java.util.Scanner;
 
-public class DockerRunService {
+public class DockerBuild {
 
     public  void runDocker(String command) {
         Docker docker_connection = new Docker(command);

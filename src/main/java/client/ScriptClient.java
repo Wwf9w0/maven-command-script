@@ -3,8 +3,8 @@ package client;
 import cli.Maven;
 import cli.process.ImportAnalyzeProcess;
 import model.MavenCommandType;
-import service.DockerRunService;
-import service.MavenService;
+import service.DockerBuild;
+import service.MavenBuild;
 
 import java.util.List;
 import java.util.Scanner;
@@ -15,13 +15,13 @@ public class ScriptClient {
     private static Maven maven;
 
     private static ImportAnalyzeProcess analyzeProcess;
-    private static DockerRunService dockerRunService = new DockerRunService();
-    private static MavenService mavenService = new MavenService();
+    private static DockerBuild dockerBuild = new DockerBuild();
+    private static MavenBuild mavenBuild = new MavenBuild();
 
-    public ScriptClient(Maven mavenCommand, DockerRunService dockerRunService, MavenService mavenService) {
+    public ScriptClient(Maven mavenCommand, DockerBuild dockerBuild, MavenBuild mavenBuild) {
         this.maven = mavenCommand;
-        this.dockerRunService = dockerRunService;
-        this.mavenService = mavenService;
+        this.dockerBuild = dockerBuild;
+        this.mavenBuild = mavenBuild;
     }
 
     public static void run(String[] args) {
@@ -37,8 +37,8 @@ public class ScriptClient {
         SCANNER.nextLine();
 
         if (choice == 1) {
-            MavenCommandType commandType = mavenService.getMvnCommand(SCANNER);
-            List<String> commandList = mavenService.makeCommandList(commandType);
+            MavenCommandType commandType = mavenBuild.getMvnCommand(SCANNER);
+            List<String> commandList = mavenBuild.makeCommandList(commandType);
             for (String s : commandList) {
                 maven = new Maven(s, projectPath);
                 if (!maven.isSuccess()) {
@@ -57,8 +57,8 @@ public class ScriptClient {
             System.out.println("3- docker images");
 
             int choiceDockerProcess = SCANNER.nextInt();
-            String command = dockerRunService.buildCommand(choiceDockerProcess, SCANNER);
-            dockerRunService.runDocker(command);
+            String command = dockerBuild.buildCommand(choiceDockerProcess, SCANNER);
+            dockerBuild.runDocker(command);
         }
     }
 }

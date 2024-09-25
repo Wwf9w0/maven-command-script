@@ -24,9 +24,9 @@ public class Maven {
 
     }
 
-    private static void runCommand(String mavenCommand, String projectPath) {
+    private static void runCommand(String command, String projectPath) {
         try {
-            ProcessBuilder builder = new ProcessBuilder("mvn", mavenCommand);
+            ProcessBuilder builder = new ProcessBuilder("mvn", command);
             builder.directory(new File(projectPath));
             builder.redirectErrorStream(true);
 
@@ -40,9 +40,9 @@ public class Maven {
 
             int exitCode = process.waitFor();
             if (exitCode == 0) {
-                System.out.println("Maven command successful: mvn " + mavenCommand);
+                System.out.println("Maven command successful: mvn " + command);
             } else {
-                System.out.println("Maven command unsuccessful: mvn " + mavenCommand);
+                System.out.println("Maven command unsuccessful: mvn " + command);
             }
 
         } catch (Exception e) {
