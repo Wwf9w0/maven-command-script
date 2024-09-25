@@ -15,18 +15,25 @@ public class DockerBuildImpl implements IBuild {
         this.dockerBuild = dockerBuild;
     }
 
-    public DockerBuildImpl(){
+    public DockerBuildImpl() {
 
     }
 
-
     @Override
     public List<String> build(Scanner scanner, String path) {
-        System.out.println("Which command want to you? ");
-        System.out.println("1- pull image");
-        System.out.println("2- docker info");
-        System.out.println("3- docker images");
+        print();
         int choice = scanner.nextInt();
         return Collections.singletonList(dockerBuild.buildCommand(choice, scanner));
+    }
+
+    private void print() {
+        String print = "Which command want to you? " +
+                "\n" +
+                "1- pull image" +
+                "\n" +
+                "2- docker info" +
+                "\n" +
+                "3- docker images";
+        System.out.println(print);
     }
 }
