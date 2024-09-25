@@ -30,10 +30,28 @@ public class DockerProcess {
     }
 
     public void buildProcessAndRun(String command) {
-        ProcessBuilder processBuilder = new ProcessBuilder();
-        boolean healthCheck = dockerHealthCheck(processBuilder);
-        if (!healthCheck) {
-            newConnection(processBuilder);
+        try {
+            ProcessBuilder processBuilder = new ProcessBuilder();
+            boolean healthCheck = dockerHealthCheck(processBuilder);
+            if (!healthCheck) {
+                newConnection(processBuilder);
+            }
+            processBuilder.command("bash", "-c", command);
+            Process process = processBuilder.start();
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            BufferedReader error = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+            int exitCode = process.waitFor();
+            if (exitCode == 0) {
+                System.out.println("success.!");
+            }
+
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 

@@ -49,7 +49,8 @@ public class ScriptClient {
                 throw new RuntimeException("an unknown error occurred while import analyze");
             }
         }else if (choice == 3){
-            runDocker("ps");
+            String input = SCANNER.nextLine();
+            runDocker(input);
         }
     }
 
