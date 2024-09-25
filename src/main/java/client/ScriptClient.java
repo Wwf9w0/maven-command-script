@@ -1,3 +1,9 @@
+package client;
+
+import command.Docker;
+import command.ImportAnalyze;
+import command.MavenCommand;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -8,6 +14,8 @@ public class ScriptClient {
     private static MavenCommand mavenCommand;
 
     private static ImportAnalyze importAnalyze;
+
+    private static Docker docker;
 
     public ScriptClient(MavenCommand mavenCommand) {
         this.mavenCommand = mavenCommand;
@@ -21,7 +29,8 @@ public class ScriptClient {
         System.out.println("Which command want to use ?");
         System.out.println("1 - maven");
         System.out.println("2 - import analyze");
-        System.out.println("Make your choice (1-2)");
+        System.out.println("3 - docker");
+        System.out.println("Make your choice (1-3)");
         int choice = SCANNER.nextInt();
         SCANNER.nextLine();
 
@@ -39,7 +48,14 @@ public class ScriptClient {
             if (!importAnalyze.isSuccess()) {
                 throw new RuntimeException("an unknown error occurred while import analyze");
             }
+        }else if (choice == 3){
+            runDocker("ps");
         }
+    }
+
+    private static void runDocker(String command){
+        Docker docker_connection = new Docker(command);
+        docker_connection.dockerProcessStart(Docker.Images.RABBITMQ);
     }
 
     private static List<String> makeCommandList(MavenCommandType commandType) {
