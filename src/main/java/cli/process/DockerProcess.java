@@ -38,7 +38,7 @@ public class DockerProcess {
             Process process = processBuilder.start();
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            BufferedReader error = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+           // BufferedReader error = new BufferedReader(new InputStreamReader(process.getErrorStream()));
             String line;
             while ((line = reader.readLine()) != null) {
                 System.out.println(line);

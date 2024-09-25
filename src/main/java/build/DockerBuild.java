@@ -6,46 +6,65 @@ import java.util.Scanner;
 
 public class DockerBuild {
 
-    public DockerBuild(){
+    public DockerBuild() {
 
     }
 
-    public String buildCommand(int number, Scanner scanner) {
+    public String buildCommand(int number) {
         Images image = choiceType(number);
-        return choiceImage(image, scanner);
+        return choiceImage(image);
     }
 
-    private String choiceImage(Images image, Scanner scanner) {
-        System.out.println("Please choice a image");
-        System.out.println("1- mysql");
-        System.out.println("2- mongodb");
-        System.out.println("3- postgres");
-        System.out.println("4- rabbitmq");
-        System.out.println("5- apache/kafka");
-        int choice = scanner.nextInt();
-        switch (choice) {
-            case 1:
+    private String choiceImage(Images image) {
+        print();
+        switch (image) {
+            case MYSQL:
                 return Images.MYSQL.getCommand();
-            case 2:
+            case MONGODB:
                 return Images.MONGODB.getCommand();
-            case 3:
+            case POSTGRES:
                 return Images.POSTGRES.getCommand();
-            case 4:
+            case RABBITMQ:
                 return Images.RABBITMQ.getCommand();
-            case 5:
+            case KAFKA:
                 return Images.KAFKA.getCommand();
         }
         return Images.DOCKER_INFO.getCommand();
     }
 
+    private void print() {
+        String print = "Please choice a image." +
+                "\n" +
+                "1- mysql" +
+                "\n" +
+                "2- mongodb" +
+                "\n" +
+                "3- postgres" +
+                "\n" +
+                "4- rabbitmq" +
+                "\n" +
+                "5- apache/kafka";
+        System.out.println(print);
+    }
+
     private Images choiceType(int number) {
         switch (number) {
             case 1:
-                return Images.DOCKER_PULL;
-            case 2:
                 return Images.DOCKER_INFO;
-            case 3:
+            case 2:
                 return Images.DOCKER_IMAGES;
+            case 3:
+                return Images.DOCKER_PULL;
+            case 4:
+                return Images.MYSQL;
+            case 5:
+                return Images.MONGODB;
+            case 6:
+                return Images.POSTGRES;
+            case 7:
+                return Images.RABBITMQ;
+            case 8:
+                return Images.KAFKA;
         }
         return Images.DOCKER_INFO;
     }

@@ -1,6 +1,5 @@
 package client;
 
-
 import model.CommandRequest;
 import model.CommandType;
 import rule.handler.CommandHandler;
@@ -26,7 +25,7 @@ public class ScriptClient {
         commandHandler.handle(request.getCommandType()).runCommand(request);
     }
 
-    private static void build(){
+    private static void build() {
         String stringBuilder = "Which command want to use ?" +
                 "\n" +
                 "1 - maven" +
@@ -39,7 +38,7 @@ public class ScriptClient {
         System.out.println(stringBuilder);
     }
 
-    private static void buildCommandRequest(CommandRequest request,String path){
+    private static void buildCommandRequest(CommandRequest request, String path) {
         request.setPath(path);
         request.setCommandType(CommandType.fromValue(request.getNumber()));
     }

@@ -23,7 +23,7 @@ public class DockerBuildImpl implements IBuild {
     public List<String> build(Scanner scanner, String path) {
         print();
         int choice = scanner.nextInt();
-        return Collections.singletonList(dockerBuild.buildCommand(choice, scanner));
+        return Collections.singletonList(dockerBuild.buildCommand(choice));
     }
 
     private void print() {
