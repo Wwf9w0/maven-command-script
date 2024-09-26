@@ -1,4 +1,4 @@
-package rule;
+package operation.rule;
 
 import model.CommandRequest;
 

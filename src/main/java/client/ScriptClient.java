@@ -2,7 +2,8 @@ package client;
 
 import model.CommandRequest;
 import model.CommandType;
-import rule.handler.CommandHandler;
+import operation.handler.CommandHandler;
+import operation.operationv2.DockerFileBuildOperation;
 
 import java.util.Scanner;
 
@@ -11,18 +12,39 @@ public class ScriptClient {
 
     private static CommandHandler commandHandler = new CommandHandler();
 
+    private static DockerFileBuildOperation dockerFileBuildOperation = new DockerFileBuildOperation();
+
+    public ScriptClient(CommandHandler commandHandler, DockerFileBuildOperation dockerFileBuildOperation){
+        this.commandHandler = commandHandler;
+        this.dockerFileBuildOperation = dockerFileBuildOperation;
+    }
+
     public ScriptClient() {
     }
 
     public static void run(String[] args) {
-        System.out.print("Please enter the file path of the project: ");
+      /*  System.out.print("Please enter the file path of the project: ");
         String projectPath = SCANNER.nextLine();
         build();
         int choice = SCANNER.nextInt();
         CommandRequest request = new CommandRequest();
         request.setNumber(choice);
         buildCommandRequest(request, projectPath);
-        commandHandler.handle(request.getCommandType()).runCommand(request);
+        commandHandler.handle(request.getCommandType()).runCommand(request);*/
+
+        System.out.println("Sıra sıra java sürümü , jar locatipn, jar name ve port bilgisini gir.");
+        System.out.println("javaVersion ->");
+        String javaVertsion = SCANNER.nextLine();
+        System.out.println("jarLocation ->");
+        String jarLocation = SCANNER.nextLine();
+        System.out.println("jarName ->");
+        String jarName = SCANNER.nextLine();
+        System.out.println("port ->");
+        int port = SCANNER.nextInt();
+
+        String dockerfile = dockerFileBuildOperation.makeDockerfile(javaVertsion, jarLocation, port,jarName);
+
+        System.out.println(dockerfile);
     }
 
     private static void build() {

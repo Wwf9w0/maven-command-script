@@ -1,6 +1,5 @@
-package rule;
+package operation.rule;
 
-import build.DockerBuild;
 import cli.process.impl.build.DockerBuildImpl;
 import cli.process.impl.run.DockerRunImpl;
 import model.CommandRequest;
@@ -8,7 +7,7 @@ import model.CommandRequest;
 import java.util.List;
 import java.util.Scanner;
 
-public class DockerRule implements ICommandRuleService{
+public class DockerRule implements ICommandRuleService {
 
     private static DockerBuildImpl dockerBuildImpl = new DockerBuildImpl();
     private static DockerRunImpl dockerRunImpl = new DockerRunImpl();

@@ -1,8 +1,9 @@
-package rule;
+package operation.rule;
 
 import cli.process.impl.MavenProcessImpl;
 import cli.process.impl.run.MavenRunImpl;
 import model.CommandRequest;
+import operation.rule.ICommandRuleService;
 
 import java.util.List;
 import java.util.Scanner;

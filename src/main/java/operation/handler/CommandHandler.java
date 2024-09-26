@@ -1,10 +1,10 @@
-package rule.handler;
+package operation.handler;
 
 import model.CommandType;
-import rule.DockerRule;
-import rule.ICommandRuleService;
-import rule.ImportAnalyzeRule;
-import rule.MavenRule;
+import operation.rule.DockerRule;
+import operation.rule.ICommandRuleService;
+import operation.rule.ImportAnalyzeRule;
+import operation.rule.MavenRule;
 
 public class CommandHandler {
 
