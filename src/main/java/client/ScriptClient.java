@@ -14,7 +14,7 @@ public class ScriptClient {
 
     private static DockerFileBuildOperation dockerFileBuildOperation = new DockerFileBuildOperation();
 
-    public ScriptClient(CommandHandler commandHandler, DockerFileBuildOperation dockerFileBuildOperation){
+    public ScriptClient(CommandHandler commandHandler, DockerFileBuildOperation dockerFileBuildOperation) {
         this.commandHandler = commandHandler;
         this.dockerFileBuildOperation = dockerFileBuildOperation;
     }
@@ -23,29 +23,30 @@ public class ScriptClient {
     }
 
     public static void run(String[] args) {
-      /*  System.out.print("Please enter the file path of the project: ");
+        mvnAndAnalyzeRun();
+        dockerBuildAndCreateFile();
+    }
+
+    private static void mvnAndAnalyzeRun() {
+        System.out.print("Please enter the file path of the project: ");
         String projectPath = SCANNER.nextLine();
         build();
         int choice = SCANNER.nextInt();
         CommandRequest request = new CommandRequest();
         request.setNumber(choice);
         buildCommandRequest(request, projectPath);
-        commandHandler.handle(request.getCommandType()).runCommand(request);*/
+        commandHandler.handle(request.getCommandType()).runCommand(request);
+    }
 
+    private static void dockerBuildAndCreateFile() {
         System.out.println("Sıra sıra java sürümü , jar locatipn, jar name ve port bilgisini gir.");
         System.out.println("javaVersion ->");
         String javaVertsion = SCANNER.nextLine();
-        System.out.println("jarLocation ->");
-        String jarLocation = SCANNER.nextLine();
-        System.out.println("jarName ->");
-        String jarName = SCANNER.nextLine();
         System.out.println("port ->");
         int port = SCANNER.nextInt();
-
-      //  String dockerfile = dockerFileBuildOperation.buildDockerfile(javaVertsion, jarLocation, port,jarName);
-       // System.out.println(dockerfile);
-        dockerFileBuildOperation.createDockerfile(javaVertsion, jarLocation, port,jarName);
-
+        String dockerfile = dockerFileBuildOperation.buildDockerfile(javaVertsion, port);
+        System.out.println(dockerfile);
+        dockerFileBuildOperation.createDockerfile(javaVertsion, port);
     }
 
     private static void build() {

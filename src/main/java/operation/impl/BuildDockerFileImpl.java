@@ -1,29 +1,35 @@
 package operation.impl;
 
 import model.DockerFile;
+import model.FileInfo;
 import operation.DockerOperation;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 public class BuildDockerFileImpl implements DockerOperation {
 
     @Override
     public String buildDockerFile(DockerFile file) {
+        runMvnClean();
+        FileInfo fileInfo = getJarFileName();
         StringBuilder dockerfile = new StringBuilder();
         dockerfile.append("FROM openjdk:").append(file.getJavaVersion()).append("\n");
         dockerfile.append("ENV ").append("SERVER_PORT ").append(file.getPort()).append("\n");
-        dockerfile.append("ADD ").append(file.getJarLocation()).append(" ").append(file.getJarName()).append("\n");
+        dockerfile.append("ADD ").append(fileInfo.getRoot()).append("/target").append(" ").append(fileInfo.getFileName()).append("\n");
        // dockerfile.append("RUN").append("apk add tzdata && ln -sf /usr/share/zoneInfo/Europe/Istanbul /etc/localtime");
         dockerfile.append("EXPOSE ").append(file.getPort()).append("\n");
         dockerfile.append("ENTRYPOINT [")
                 .append("\"java\", ")
                 .append("\"-jar\", ")
-                .append("\"").append(file.getJarName()).append("\"]");
+                .append("\"").append(fileInfo.getFileName()).append("\"]");
         //  dockerfile.append("CMD [\"").append("java ").append("-jar ").append(file.getJarName()).append("\"]\n");
         return dockerfile.toString();
     }
@@ -41,6 +47,39 @@ public class BuildDockerFileImpl implements DockerOperation {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private FileInfo getJarFileName(){
+        String root = System.getProperty("user.dir");
+        Path currentPath = Paths.get(root + "/target");
+        try (Stream<Path> files = Files.list(currentPath)){
+            Optional<Path> jarFile = files
+                    .filter(p -> p.toString().endsWith(".jar"))
+                    .findFirst();
+            String fileName = jarFile.map(Path::getFileName)
+                    .map(Path::toString)
+                    .orElseThrow(() -> new IOException("No JAR file found in target directory"));
+            return new FileInfo(fileName, root);
+        }catch (IOException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private void runMvnClean(){
+        try {
+            ProcessBuilder processBuilder = new ProcessBuilder();
+            processBuilder.command("bash", "-c", "mvn clean install");
+            Process process = processBuilder.start();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String line;
+            while ((line = reader.readLine()) != null){
+                System.out.println(line);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     @Override
