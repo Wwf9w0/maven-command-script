@@ -20,7 +20,7 @@ public class DockerFileBuildOperation {
 
     }
 
-    public String makeDockerfile(String javaVersion, String jarLocation, Integer port, String jarName) {
+    public String buildDockerfile(String javaVersion, String jarLocation, Integer port, String jarName) {
         if (javaVersion == null){
             javaVersion = DEFAULT_JDK;
         }
@@ -29,5 +29,17 @@ public class DockerFileBuildOperation {
         }
         dockerFile = new DockerFile(javaVersion, jarLocation, port, jarName);
         return buildDockerFile.buildDockerFile(dockerFile);
+    }
+
+    public void createDockerfile(String javaVersion, String jarLocation, Integer port, String jarName){
+        if (javaVersion == null){
+            javaVersion = DEFAULT_JDK;
+        }
+        if (port == null){
+            port = DEFAULT_PORT;
+        }
+
+        dockerFile = new DockerFile(javaVersion, jarLocation, port, jarName);
+        buildDockerFile.createDockerFile(dockerFile);
     }
 }

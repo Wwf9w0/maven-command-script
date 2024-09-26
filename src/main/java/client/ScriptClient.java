@@ -42,9 +42,10 @@ public class ScriptClient {
         System.out.println("port ->");
         int port = SCANNER.nextInt();
 
-        String dockerfile = dockerFileBuildOperation.makeDockerfile(javaVertsion, jarLocation, port,jarName);
+      //  String dockerfile = dockerFileBuildOperation.buildDockerfile(javaVertsion, jarLocation, port,jarName);
+       // System.out.println(dockerfile);
+        dockerFileBuildOperation.createDockerfile(javaVertsion, jarLocation, port,jarName);
 
-        System.out.println(dockerfile);
     }
 
     private static void build() {

@@ -7,7 +7,9 @@ import java.util.List;
 public interface DockerOperation {
 
     String buildDockerFile(DockerFile dockerFile);
-    void runDockerFile();
+
+    void createDockerFile(DockerFile dockerFile);
+    void runDockerFile(String imageName);
     void runImage();
     void linkImage();
 }
