@@ -6,8 +6,6 @@ import java.io.InputStreamReader;
 
 public class DockerProcess {
 
-    private String name;
-    private boolean isLatest;
     private boolean isSuccess;
 
     private String type;
@@ -21,8 +19,7 @@ public class DockerProcess {
     private final String DOCKER_PULL = "docker pull";
 
 
-    public DockerProcess(boolean isLatest) {
-        this.isLatest = isLatest;
+    public DockerProcess() {
         this.type = DOCKER_PULL;
         this.version = LATEST;
     }
@@ -53,7 +50,7 @@ public class DockerProcess {
         }
     }
 
-    private boolean dockerHealthCheck(ProcessBuilder pb) {
+    public boolean dockerHealthCheck(ProcessBuilder pb) {
         try {
             pb.command("bash", "-c", "docker info");
             Process process = pb.start();
@@ -67,7 +64,7 @@ public class DockerProcess {
         return true;
     }
 
-    private void newConnection(ProcessBuilder pb) {
+    public void newConnection(ProcessBuilder pb) {
         try {
             pb.command("bash", "-c", DOCKER_OPEN_COMMAND);
             pb.start();

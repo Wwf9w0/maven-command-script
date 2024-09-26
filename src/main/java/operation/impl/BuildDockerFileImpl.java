@@ -1,5 +1,6 @@
 package operation.impl;
 
+import cli.process.DockerProcess;
 import model.DockerFile;
 import model.FileInfo;
 import operation.DockerOperation;
@@ -15,6 +16,16 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 public class BuildDockerFileImpl implements DockerOperation {
+
+    private static DockerProcess dockerProcess = new DockerProcess();
+
+    public BuildDockerFileImpl(DockerProcess dockerProcess){
+        this.dockerProcess = dockerProcess;
+    }
+
+    public BuildDockerFileImpl(){
+
+    }
 
     @Override
     public String buildDockerFile(DockerFile file) {
@@ -49,7 +60,7 @@ public class BuildDockerFileImpl implements DockerOperation {
         }
     }
 
-    private FileInfo getJarFileName(){
+    public FileInfo getJarFileName(){
         String root = System.getProperty("user.dir");
         Path currentPath = Paths.get(root + "/target");
         try (Stream<Path> files = Files.list(currentPath)){
@@ -88,6 +99,7 @@ public class BuildDockerFileImpl implements DockerOperation {
             StringBuilder builder = new StringBuilder();
             builder.append("docker ").append("build ").append("-t ").append(imageName).append(" ").append(".");
             ProcessBuilder processBuilder = new ProcessBuilder();
+            doProcess(processBuilder);
             processBuilder.command("bash", "-c", builder.toString());
             Process process = processBuilder.start();
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -96,11 +108,11 @@ public class BuildDockerFileImpl implements DockerOperation {
                 System.out.println(line);
             }
 
-            int exitTime = process.waitFor();
+           int exitTime = process.waitFor();
             if (exitTime == 0){
                 System.out.println("build success.!");
             }else {
-                throw new RuntimeException("build unsuccessful.!");
+               wait(exitTime);
             }
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append("docker run ").append(imageName);
@@ -117,6 +129,13 @@ public class BuildDockerFileImpl implements DockerOperation {
             throw new RuntimeException(e);
         }
 
+    }
+
+    private void doProcess(ProcessBuilder processBuilder){
+       boolean healthCheck =  dockerProcess.dockerHealthCheck(processBuilder);
+       if (!healthCheck){
+           dockerProcess.newConnection(processBuilder);
+       }
     }
 
     @Override

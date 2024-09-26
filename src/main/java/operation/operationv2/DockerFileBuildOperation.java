@@ -1,6 +1,7 @@
 package operation.operationv2;
 
 import model.DockerFile;
+import model.FileInfo;
 import operation.impl.BuildDockerFileImpl;
 
 public class DockerFileBuildOperation {
@@ -42,4 +43,11 @@ public class DockerFileBuildOperation {
         dockerFile = new DockerFile(javaVersion, port);
         buildDockerFile.createDockerFile(dockerFile);
     }
+
+    public void runDockerFile(){
+        FileInfo fileInfo = buildDockerFile.getJarFileName();
+        buildDockerFile.runDockerFile(fileInfo.getFileName());
+    }
+
+
 }

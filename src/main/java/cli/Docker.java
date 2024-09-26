@@ -11,7 +11,7 @@ public class Docker {
     }
 
     public void dockerProcessStart(){
-        DockerProcess dockerProcess = new DockerProcess(Boolean.TRUE);
+        DockerProcess dockerProcess = new DockerProcess();
         dockerProcess.buildProcessAndRun(command);
     }
 }

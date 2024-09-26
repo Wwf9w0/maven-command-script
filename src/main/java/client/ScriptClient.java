@@ -23,8 +23,9 @@ public class ScriptClient {
     }
 
     public static void run(String[] args) {
-        mvnAndAnalyzeRun();
+      //  mvnAndAnalyzeRun();
         dockerBuildAndCreateFile();
+        dockerFileBuildOperation.runDockerFile();
     }
 
     private static void mvnAndAnalyzeRun() {
