@@ -1,7 +1,7 @@
 package client;
 
 import model.CommandRequest;
-import model.CommandType;
+import model.ScriptCommandType;
 import operation.handler.CommandHandler;
 import operation.operationv2.DockerFileBuildOperation;
 
@@ -23,7 +23,7 @@ public class ScriptClient {
     }
 
     public static void run(String[] args) {
-      //  mvnAndAnalyzeRun();
+        mvnAndAnalyzeRun();
         dockerBuildAndCreateFile();
         dockerFileBuildOperation.runDockerFile();
     }
@@ -36,7 +36,7 @@ public class ScriptClient {
         CommandRequest request = new CommandRequest();
         request.setNumber(choice);
         buildCommandRequest(request, projectPath);
-        commandHandler.handle(request.getCommandType()).runCommand(request);
+        commandHandler.handle(request.getScriptCommandType()).runCommand(request);
     }
 
     private static void dockerBuildAndCreateFile() {
@@ -51,6 +51,7 @@ public class ScriptClient {
     }
 
     private static void build() {
+        //TODO refactor
         String stringBuilder = "Which command want to use ?" +
                 "\n" +
                 "1 - maven" +
@@ -65,6 +66,6 @@ public class ScriptClient {
 
     private static void buildCommandRequest(CommandRequest request, String path) {
         request.setPath(path);
-        request.setCommandType(CommandType.fromValue(request.getNumber()));
+        request.setScriptCommandType(ScriptCommandType.fromValue(request.getNumber()));
     }
 }

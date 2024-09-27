@@ -1,8 +1,8 @@
-package operation.rule;
+package operation.run;
 
 import model.CommandRequest;
 
-public interface ICommandRuleService {
+public interface ICommandRunService {
 
     void runCommand(CommandRequest commandRequest);
 }

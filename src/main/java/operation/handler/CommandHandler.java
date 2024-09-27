@@ -1,25 +1,25 @@
 package operation.handler;
 
-import model.CommandType;
-import operation.rule.DockerRule;
-import operation.rule.ICommandRuleService;
-import operation.rule.ImportAnalyzeRule;
-import operation.rule.MavenRule;
+import model.ScriptCommandType;
+import operation.impl.DockerRunImpl;
+import operation.run.ICommandRunService;
+import operation.impl.ImportAnalyzeRunImpl;
+import operation.impl.MavenRunImpl;
 
 public class CommandHandler {
 
-    private static final MavenRule mavenRule = new MavenRule();
-    private static final DockerRule dockerRule = new DockerRule();
+    private static final MavenRunImpl MAVEN_RUN = new MavenRunImpl();
+    private static final DockerRunImpl DOCKER_RUN = new DockerRunImpl();
 
-    private static final ImportAnalyzeRule importAnalyzeRule = new ImportAnalyzeRule();
+    private static final ImportAnalyzeRunImpl IMPORT_ANALYZE_RUN = new ImportAnalyzeRunImpl();
 
-    public ICommandRuleService handle(CommandType commandType){
-        if (commandType.equals(CommandType.MAVEN)){
-            return mavenRule;
-        } else if (commandType.equals(CommandType.DOCKER)) {
-            return dockerRule;
-        } else if (commandType.equals(CommandType.IMPORT_ANALYZE)) {
-            return importAnalyzeRule;
+    public ICommandRunService handle(ScriptCommandType scriptCommandType){
+        if (scriptCommandType.equals(ScriptCommandType.MAVEN)){
+            return MAVEN_RUN;
+        } else if (scriptCommandType.equals(ScriptCommandType.DOCKER)) {
+            return DOCKER_RUN;
+        } else if (scriptCommandType.equals(ScriptCommandType.IMPORT_ANALYZE)) {
+            return IMPORT_ANALYZE_RUN;
         } else {
             throw new RuntimeException();
         }

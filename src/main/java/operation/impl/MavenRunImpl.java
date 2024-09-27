@@ -1,18 +1,17 @@
-package operation.rule;
+package operation.impl;
 
 import cli.process.impl.MavenProcessImpl;
-import cli.process.impl.run.MavenRunImpl;
 import model.CommandRequest;
-import operation.rule.ICommandRuleService;
+import operation.run.ICommandRunService;
 
 import java.util.List;
 import java.util.Scanner;
 
-public class MavenRule implements ICommandRuleService {
+public class MavenRunImpl implements ICommandRunService {
 
     private static MavenProcessImpl mavenProcessImpl = new MavenProcessImpl();
 
-    private static MavenRunImpl mavenRunImpl = new MavenRunImpl();
+    private static cli.process.impl.run.MavenRunImpl mavenRunImpl = new cli.process.impl.run.MavenRunImpl();
 
     @Override
     public void runCommand(CommandRequest commandRequest) {

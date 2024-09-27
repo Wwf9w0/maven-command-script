@@ -24,7 +24,7 @@ public class MavenBuild {
         return commandList;
     }
 
-    public  MavenCommandType getMvnCommand(Scanner scanner) {
+    public MavenCommandType getMvnCommand(Scanner scanner) {
         System.out.println("Which maven command you want to? ");
         System.out.println("1. clean-install");
         System.out.println("2. resolve");

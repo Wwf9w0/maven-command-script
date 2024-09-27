@@ -1,6 +1,6 @@
-package operation.rule;
+package operation.run;
 
-public interface DockerImageRule {
+public interface DockerImageRunService {
 
     void pullImage();
     void startImage();

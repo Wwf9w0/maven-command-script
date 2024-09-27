@@ -5,15 +5,15 @@ public class CommandRequest {
     private String path;
 
     private int number;
-    private CommandType commandType;
+    private ScriptCommandType scriptCommandType;
 
     public CommandRequest() {
 
     }
 
-    public CommandRequest(String path, CommandType type) {
+    public CommandRequest(String path, ScriptCommandType scriptCommandType) {
         this.path = path;
-        this.commandType = type;
+        this.scriptCommandType = scriptCommandType;
 
     }
 
@@ -27,12 +27,12 @@ public class CommandRequest {
 
 
 
-    public CommandType getCommandType() {
-        return commandType;
+    public ScriptCommandType getScriptCommandType() {
+        return scriptCommandType;
     }
 
-    public void setCommandType(CommandType commandType) {
-        this.commandType = commandType;
+    public void setScriptCommandType(ScriptCommandType scriptCommandType) {
+        this.scriptCommandType = scriptCommandType;
     }
 
     public int getNumber(){
