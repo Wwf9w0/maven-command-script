@@ -9,7 +9,9 @@ public enum Images {
     MONGODB("mongodb", "docker pull mongodb", 5),
     POSTGRES("postgres","docker pull postgres", 6),
     RABBITMQ("rabbitmq", "docker pull rabbitmq", 7),
-    KAFKA("apache/kafka", "docker pull apache/kafka", 8);
+    KAFKA("apache/kafka", "docker pull apache/kafka", 8),
+    DOCKER_RUN("run", "docker run", 9),
+    DOCKER_BUILD("build", "docker build -t ", 10);
 
     private final String name;
     private final String command;
