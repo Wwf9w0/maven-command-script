@@ -43,7 +43,6 @@ public class BuildDockerFileImpl implements DockerOperation {
                 .append("\"java\", ")
                 .append("\"-jar\", ")
                 .append("\"").append(fileInfo.getFileName()).append("\"]");
-        //  dockerfile.append("CMD [\"").append("java ").append("-jar ").append(file.getJarName()).append("\"]\n");
         return dockerfile.toString();
     }
 
@@ -109,7 +108,7 @@ public class BuildDockerFileImpl implements DockerOperation {
             Process process = processBuilder.start();
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line;
-            while ((line = reader.readLine()) != null){
+            while ((line = reader.readLine()) != null) {
                 System.out.println(line);
             }
 
@@ -119,17 +118,15 @@ public class BuildDockerFileImpl implements DockerOperation {
     }
 
     private void doProcess() {
-        ProcessBuilder processBuilder = new ProcessBuilder();
-        boolean healthCheck = dockerProcess.dockerHealthCheck(processBuilder);
-        if (!healthCheck) {
-            dockerProcess.newConnection(processBuilder);
-        }
-
-        String command = Images.DOCKER_RUN.getCommand() + " " + "service";
-        processBuilder.command("bash", "-c", command);
         try {
+            ProcessBuilder processBuilder = new ProcessBuilder();
+            boolean healthCheck = dockerProcess.dockerHealthCheck(processBuilder);
+            if (!healthCheck) {
+                dockerProcess.newConnection(processBuilder);
+            }
+            String command = Images.DOCKER_RUN.getCommand() + " " + "service";
+            processBuilder.command("bash", "-c", command);
             Process process = processBuilder.start();
-
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line;
             while ((line = reader.readLine()) != null) {

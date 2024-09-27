@@ -40,10 +40,10 @@ public class ScriptClient {
     }
 
     private static void dockerBuildAndCreateFile() {
-        System.out.println("Sıra sıra java sürümü , jar locatipn, jar name ve port bilgisini gir.");
-        System.out.println("javaVersion ->");
+        System.out.println("Enter java_version and port..");
+        System.out.println("javaVersion -> ");
         String javaVertsion = SCANNER.nextLine();
-        System.out.println("port ->");
+        System.out.println("port -> ");
         int port = SCANNER.nextInt();
         String dockerfile = dockerFileBuildOperation.buildDockerfile(javaVertsion, port);
         System.out.println(dockerfile);
