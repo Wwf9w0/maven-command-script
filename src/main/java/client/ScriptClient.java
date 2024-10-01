@@ -5,6 +5,9 @@ import model.ScriptCommandType;
 import operation.handler.CommandHandler;
 import operation.operationv2.DockerFileBuildOperation;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 
 public class ScriptClient {
@@ -29,13 +32,11 @@ public class ScriptClient {
     }
 
     private static void mvnAndAnalyzeRun() {
-        System.out.print("Please enter the file path of the project: ");
-        String projectPath = SCANNER.nextLine();
         build();
         int choice = SCANNER.nextInt();
         CommandRequest request = new CommandRequest();
         request.setNumber(choice);
-        buildCommandRequest(request, projectPath);
+        buildCommandRequest(request);
         commandHandler.handle(request.getScriptCommandType()).runCommand(request);
     }
 
@@ -51,21 +52,39 @@ public class ScriptClient {
     }
 
     private static void build() {
-        //TODO refactor
-        String stringBuilder = "Which command want to use ?" +
-                "\n" +
-                "1 - maven" +
-                "\n" +
-                "2 - import analyze" +
-                "\n" +
-                "3- docker" +
-                "\n" +
-                "Make your choice (1-3)";
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Which command want to use ?");
+        stringBuilder.append("\n");
+        stringBuilder.append("maven ?");
+        stringBuilder.append("\n");
+        stringBuilder.append("import analyz ?");
+        stringBuilder.append("\n");
+        stringBuilder.append("docker");
+        stringBuilder.append("\n");
+        stringBuilder.append("Make your choice (1-3)");
         System.out.println(stringBuilder);
     }
 
-    private static void buildCommandRequest(CommandRequest request, String path) {
+    private static void buildCommandRequest(CommandRequest request) {
+        String path = getCurrentPath();
         request.setPath(path);
         request.setScriptCommandType(ScriptCommandType.fromValue(request.getNumber()));
+    }
+
+    private static String getCurrentPath() {
+        try {
+            ProcessBuilder processBuilder = new ProcessBuilder();
+            processBuilder.command("bash", "-c", "pwd");
+            Process process = processBuilder.start();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println("path : -> " + line);
+            }
+            return line;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }
