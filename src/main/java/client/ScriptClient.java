@@ -85,6 +85,5 @@ public class ScriptClient {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
 }
