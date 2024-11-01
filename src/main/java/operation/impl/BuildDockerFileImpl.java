@@ -138,8 +138,24 @@ public class BuildDockerFileImpl implements DockerOperation {
     }
 
     @Override
-    public void runImage() {
-
+    public void runImage(String imageName) {
+        try {
+            ProcessBuilder processBuilder = new ProcessBuilder();
+            boolean healthCheck = dockerProcess.dockerHealthCheck(processBuilder);
+            if (!healthCheck) {
+                dockerProcess.newConnection(processBuilder);
+            }
+            String command = Images.DOCKER_RUN.getCommand() + imageName;
+            processBuilder.command("bash", "-c", command);
+            Process process = processBuilder.start();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String line;
+            while ((line = reader.readLine()) != null){
+                System.out.println(line);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

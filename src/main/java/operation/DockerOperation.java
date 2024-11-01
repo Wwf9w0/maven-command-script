@@ -10,6 +10,6 @@ public interface DockerOperation {
 
     void createDockerFile(DockerFile dockerFile);
     void runDockerFile(String imageName);
-    void runImage();
+    void runImage(String imageName);
     void linkImage();
 }
